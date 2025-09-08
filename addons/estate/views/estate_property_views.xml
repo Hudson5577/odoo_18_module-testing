@@ -25,7 +25,7 @@
                     <filter name="postcode" string="Postcode" context="{'group_by' : 'postcode'}"/>
                 </group>
             </search>
-            
+
         </field>
     </record>
 
@@ -61,6 +61,10 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_sold" type="object" string="Sold"/>
+                    <button name="action_cancel" type="object" string="Cancel"/>
+                </header>
                 <sheet>
                     <div>
                         <h1><field name="name"/></h1>
@@ -71,7 +75,7 @@
                             <field name="property_type_id"/>
                             <field name="postcode"/>
                             <field name="date_availability"/>
-                            <field name="state" groups='base.group_no_one'/>
+                            <field name="state"/>
                         </group>
                         <group>
                             <field name="expected_price"/>
