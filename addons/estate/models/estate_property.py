@@ -6,6 +6,7 @@ from odoo.tools.float_utils import float_is_zero, float_compare
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property"
+    _order = "id desc"
 
     name = fields.Char('Title', required=True)
     description = fields.Text()
@@ -30,6 +31,7 @@ class EstateProperty(models.Model):
     active = fields.Boolean(default=False)
 
     state = fields.Selection(
+        string="Status",
         selection=[
             ('new', 'New'),
             ('offer_received', 'Offer Received'),
@@ -103,7 +105,7 @@ class EstateProperty(models.Model):
         for record in self:
             if record.state == "sold":
                 raise UserError("Sold property cannot be canceled.")
-            record.state = "cancel"
+            record.state = "canceled"
         return True
         
     

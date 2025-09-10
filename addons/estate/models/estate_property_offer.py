@@ -5,6 +5,7 @@ from odoo.exceptions import UserError
 class EstatePropertyOffer(models.Model):
     _name = 'estate.property.offer'
     _description = 'Estate Property Offer'
+    _order = 'price desc'
 
     price = fields.Float()
     status = fields.Selection(
@@ -14,13 +15,19 @@ class EstatePropertyOffer(models.Model):
         ],
         copy=False
     )
-    partner_id = fields.Many2one('res.partner', required=True)
-    property_id = fields.Many2one('estate.property', required=True)
+    partner_id = fields.Many2one("res.partner", required=True)
+    property_id = fields.Many2one("estate.property", required=True)
     validity = fields.Integer("Validity (days)", default=7)
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", string="Deadline")
+    property_state = fields.Selection(related="property_id.state", readonly=True)
+    property_type_id = fields.Many2one(
+    "estate.property.type",
+    related="property_id.property_type_id",
+    store=True
+    )
 
     _sql_constraints = [
-        ('check_offer_price_positive', 'CHECK(offer_price > 0)',
+        ('check_offer_price_positive', 'CHECK(price > 0)',
          'The offer price must be strictly positive.')
         ]
     
@@ -39,7 +46,14 @@ class EstatePropertyOffer(models.Model):
                 record.validity = delta.days
             else:
                 record.validity = (record.date_deadline - fields.Date.today()).days
-
+    
+    @api.model
+    def create(self, vals):
+        offer = super().create(vals)
+        if offer.property_id.state == "new":
+            offer.property_id.state = "offer_received"
+        return offer
+    
     def action_accept(self):
         for record in self: 
             if record.property_id.state == 'sold':
@@ -47,6 +61,7 @@ class EstatePropertyOffer(models.Model):
             record.status = "accepted"
             record.property_id.buyer_id = record.partner_id
             record.property_id.selling_price = record.price
+            record.property_id.state = "offer_accepted"
         return True
 
     def action_refuse(self):
@@ -54,4 +69,4 @@ class EstatePropertyOffer(models.Model):
             record.status = "refused"
         return True
         
-        
+    
