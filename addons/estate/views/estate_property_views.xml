@@ -20,7 +20,7 @@
                 <field name='postcode' />
                 <field name='expected_price' />
                 <field name='bedrooms' />
-                <field name='living_area' filter_domain="[('living_area', '>=', self)]"/>
+                <field name='living_area' filter_domain="[('living_area', '>=', self)]" />
                 <field name='facades' />
                 <field name='property_type_id' />
                 <filter name="available" string="Avalaible"
@@ -44,6 +44,8 @@
                 <field name="property_type_id" />
                 <field name="description" />
                 <field name="postcode" />
+                <field name="property_tag_ids" widget="many2many_tags"
+                    options="{'color_field': 'color'}" optional="show"/>
                 <field name="bedrooms" optional="hide" />
                 <field name="living_area" optional="hide" />
                 <field name="selling_price" />
@@ -109,7 +111,8 @@
                             </group>
                         </page>
                         <page string="Offers">
-                            <field name="offer_ids" readonly="state in ['offer_accepted', 'canceled']"/>
+                            <field name="offer_ids"
+                                readonly="state in ['offer_accepted', 'canceled']" />
                         </page>
                         <page string="Other Info">
                             <group>

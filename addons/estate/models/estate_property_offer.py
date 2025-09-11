@@ -16,7 +16,7 @@ class EstatePropertyOffer(models.Model):
         copy=False
     )
     partner_id = fields.Many2one("res.partner", required=True)
-    property_id = fields.Many2one("estate.property", required=True)
+    property_id = fields.Many2one("estate.property", required=True, ondelete="cascade")
     validity = fields.Integer("Validity (days)", default=7)
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", string="Deadline")
     property_state = fields.Selection(related="property_id.state", readonly=True)
@@ -49,10 +49,15 @@ class EstatePropertyOffer(models.Model):
     
     @api.model
     def create(self, vals):
-        offer = super().create(vals)
-        if offer.property_id.state == "new":
-            offer.property_id.state = "offer_received"
-        return offer
+        existing_offers = self.search([("property_id", "=", vals["property_id"])])
+        for offer in existing_offers:
+            if vals["price"] <= offer.price:
+                raise UserError("The offer amount must be higher than existing offers.")
+        
+        property = self.env["estate.property"].browse(vals["property_id"])
+        property.state = "offer_received"
+
+        return super(EstatePropertyOffer, self).create(vals)
     
     def action_accept(self):
         for record in self: 
