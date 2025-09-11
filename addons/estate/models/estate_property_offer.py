@@ -19,7 +19,7 @@ class EstatePropertyOffer(models.Model):
     property_id = fields.Many2one("estate.property", required=True, ondelete="cascade")
     validity = fields.Integer("Validity (days)", default=7)
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", string="Deadline")
-    property_state = fields.Selection(related="property_id.state", readonly=True)
+    property_state = fields.Selection(related="property_id.state", readonly=True, string="Property Status")
     property_type_id = fields.Many2one(
     "estate.property.type",
     related="property_id.property_type_id",
