@@ -1,13 +1,49 @@
 <odoo>
-    <menuitem id="estate_property_root" name="Real Estate"/>
+    <!-- Root -->
+    <menuitem
+        id="estate_property_root"
+        name="Real Estate"
+        sequence="1"
+    />
 
-    <menuitem id="estate_property_first_level_menu" name="Advertisements" parent='estate_property_root'/>
-    <menuitem id="estate_property_menu_action" parent='estate_property_first_level_menu' action="estate_property_action" />
+    <!-- 1st levell: Advertisements -->
+    <menuitem
+        id="estate_property_first_level_menu"
+        name="Advertisements"
+        parent="estate_property_root"
+    />
 
-    <menuitem id="estate_property_settings_menu" name="Settings" parent='estate_property_root'/>
-    <menuitem id="estate_property_type_menu_action" parent='estate_property_settings_menu' action="estate_property_type_action" />
-    <menuitem id="estate_property_tag_menu_action" parent='estate_property_settings_menu' action="estate_property_tag_action" />
+    <!-- Advertisements: Actions -->
+    <menuitem
+        id="estate_property_menu_action"
+        action="estate_property_action"
+        parent="estate_property_first_level_menu"
+
+    />
+
+    <!-- 1st level: Settings -->
+    <menuitem
+        id="estate_property_settings_menu"
+        name="Settings"
+        parent="estate_property_root"
+        sequence="2"
+    />
+
+    <!-- Settings: Actions -->
+    <menuitem
+        id="estate_property_type_menu_action"
+        action="estate_property_type_action"
+        parent="estate_property_settings_menu"
+        sequence="1"
+    />
+
+    <menuitem
+        id="estate_property_tag_menu_action"
+        action="estate_property_tag_action"
+        parent="estate_property_settings_menu"
+        sequence="2"
+    />
     
 
-    
+
 </odoo>
