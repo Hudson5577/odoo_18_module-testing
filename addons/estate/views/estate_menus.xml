@@ -6,11 +6,12 @@
         sequence="1"
     />
 
-    <!-- 1st levell: Advertisements -->
+    <!-- 1st level: Advertisements -->
     <menuitem
         id="estate_property_first_level_menu"
         name="Advertisements"
         parent="estate_property_root"
+        sequence="10"
     />
 
     <!-- Advertisements: Actions -->
@@ -26,7 +27,7 @@
         id="estate_property_settings_menu"
         name="Settings"
         parent="estate_property_root"
-        sequence="2"
+        sequence="20"
     />
 
     <!-- Settings: Actions -->

@@ -1,0 +1,27 @@
+<odoo>
+    <!-- SEARCH -->
+    <record id="estate_property_view_search_inherit_postcode" model="ir.ui.view">
+        <field name="name">estate.property.search.inherit.postcode</field>
+        <field name="model">estate.property</field>
+        <field name="inherit_id" ref="estate.estate_property_view_search_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="postcode"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- TREE -->
+    <record id="view_estate_property_tree_inherit_postcode" model="ir.ui.view">
+        <field name="name">estate.property.tree.inherit.postcode</field>
+        <field name="model">estate.property</field>
+        <field name="inherit_id" ref="estate.estate_property_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='postcode']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+    
+
+</odoo>
